@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs';
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import jwt from '../utils/jwt';
-import prisma from '@/lib/prisma';
+import jwt from '#utils/jwt';
+import prisma from '#lib/prisma';
 
 class AuthController {
   async authenticate(req: Request, res: Response, next: NextFunction) {
