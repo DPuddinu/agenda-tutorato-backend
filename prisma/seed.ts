@@ -7,7 +7,6 @@ async function main() {
     update: {},
     create: {
       email: 'alice@prisma.io',
-      name: 'Alice',
       password: bcrypt.hashSync('password', 8),
       appointments: {
         create: {
@@ -30,7 +29,6 @@ async function main() {
     update: {},
     create: {
       email: 'bob@prisma.io',
-      name: 'Bob',
       password: bcrypt.hashSync('password', 8),
       appointments: {
         create: {
