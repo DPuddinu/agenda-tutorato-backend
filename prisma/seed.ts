@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import prisma from '../src/lib/prisma';
+import prisma from '../src/controllers/lib/prisma';
 
 async function main() {
   await prisma.user.upsert({
@@ -36,7 +36,7 @@ async function main() {
           creationDate: new Date(),
           updateDate: new Date(),
           dueDate: undefined,
-           category: {
+          category: {
             create: {
               name: 'Health'
             }

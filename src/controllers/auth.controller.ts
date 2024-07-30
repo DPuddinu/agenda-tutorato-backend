@@ -2,13 +2,16 @@ import bcrypt from 'bcryptjs';
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import jwt from '#utils/jwt';
-import prisma from '#lib/prisma';
+import prisma from '#controllers/lib/prisma';
 import { z } from 'zod';
 
 export const PasswordSchema = z
   .string({ required_error: 'Password is required' })
   .min(8, 'Password must be more than 8 characters')
-  .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[?!@%$£])[A-Za-z\d?!@%$£]+$/, "Password must contain at least one letter, one number, one special character");
+  .regex(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[?!@%$£])[A-Za-z\d?!@%$£]+$/,
+    'Password must contain at least one letter, one number, one special character'
+  );
 
 const RegisterSchema = z
   .object({
