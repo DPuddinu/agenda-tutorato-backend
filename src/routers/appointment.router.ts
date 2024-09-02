@@ -1,68 +1,16 @@
 import { Router } from 'express';
-import { PrismaClient } from '@prisma/client';
 import rescue from 'express-rescue';
+import appointmentController from '#controllers/appointment.controller';
+import authMiddleware from '#middlewares/auth';
 
-const prisma = new PrismaClient();
-const router = Router();
+const appointmentRouter = Router();
 
+appointmentRouter.route('/').post(authMiddleware, rescue(appointmentController.create));
 
-router.post(
-  '/',
-  rescue(async (req, res) => {
-    const { description, authorId, categoryId, dueDate } = req.body;
-    const appointment = await prisma.appointment.create({
-      data: {
-        description,
-        authorId,
-        categoryId,
-        dueDate,
-        creationDate: new Date(),
-        updateDate: new Date()
-      }
-    });
-    res.json(appointment);
-  })
-);
+appointmentRouter.route('/:id').get(authMiddleware, rescue(appointmentController.getById));
 
+appointmentRouter.route('/:id').put(authMiddleware, rescue(appointmentController.update));
 
-router.get(
-  '/',
-  rescue(async (req, res) => {
-    const appointments = await prisma.appointment.findMany();
-    res.json(appointments);
-  })
-);
+appointmentRouter.route('/:id').delete(authMiddleware, rescue(appointmentController.delete));
 
-
-router.put(
-  '/:id',
-  rescue(async (req, res) => {
-    const { id } = req.params;
-    const { description, published, dueDate, categoryId } = req.body;
-    const appointment = await prisma.appointment.update({
-      where: { id: parseInt(id) },
-      data: {
-        description,
-        published,
-        dueDate,
-        categoryId,
-        updateDate: new Date()
-      }
-    });
-    res.json(appointment);
-  })
-);
-
-
-router.delete(
-  '/:id',
-  rescue(async (req, res) => {
-    const { id } = req.params;
-    await prisma.appointment.delete({
-      where: { id: parseInt(id) }
-    });
-    res.json({ message: 'Appointment deleted' });
-  })
-);
-
-export default router;
+export default appointmentRouter;
