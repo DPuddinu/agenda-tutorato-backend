@@ -12,6 +12,19 @@ const appointmentSchema = z.object({
   authorId: z.number().int().optional()
 });
 
+const paginationSchema = z.object({
+  page: z.string().regex(/^\d+$/, 'Page must be a number').optional(),
+  limit: z.string().regex(/^\d+$/, 'Limit must be a number').optional(),
+  sortBy: z
+    .string()
+    .default('creationDate')
+    .refine((val) => ['description', 'creationDate', 'updateDate', 'dueDate', 'categoryId'].includes(val), {
+      message: 'sortBy must be one of description, creationDate, updateDate, dueDate or categoryId'
+    }),
+  order: z.enum(['asc', 'desc']).optional()
+});
+
+
 class AppointmentController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
@@ -59,7 +72,16 @@ class AppointmentController {
 
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const { page = 1, limit = 10, sortBy = 'creationDate', order = 'asc' } = req.query;
+      const parsed = paginationSchema.safeParse(req.query);
+      if (!parsed.success) {
+        const errorMessages = parsed.error.issues.map((issue) => issue.message).join(', ');
+        return next({
+          status: StatusCodes.BAD_REQUEST,
+          message: errorMessages
+        });
+      }
+
+      const { page = '1', limit = '10', sortBy = 'creationDate', order = 'asc' } = parsed.data;
 
       const orderBy: { [key: string]: 'asc' | 'desc' } = {};
       orderBy[sortBy as string] = order as 'asc' | 'desc';
