@@ -57,6 +57,32 @@ class AppointmentController {
     }
   }
 
+  async getAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { page = 1, limit = 10, sortBy = 'creationDate', order = 'asc' } = req.query;
+
+      const orderBy: { [key: string]: 'asc' | 'desc' } = {};
+      orderBy[sortBy as string] = order as 'asc' | 'desc';
+
+      const appointments = await prisma.appointment.findMany({
+        skip: (Number(page) - 1) * Number(limit),
+        take: Number(limit),
+        orderBy
+      });
+
+      const totalAppointments = await prisma.appointment.count();
+
+      res.status(StatusCodes.OK).json({
+        total: totalAppointments,
+        page: Number(page),
+        limit: Number(limit),
+        data: appointments
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const parsed = appointmentSchema.safeParse(req.body);
