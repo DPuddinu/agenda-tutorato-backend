@@ -27,7 +27,7 @@ model Category {
 
 model Appointment {
   id        Int      @default(autoincrement()) @id
-  published Boolean? @default(false)
+  completed String  @default("false")
   description     String
   creationDate   DateTime
   updateDate     DateTime

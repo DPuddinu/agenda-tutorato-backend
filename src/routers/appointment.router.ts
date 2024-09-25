@@ -11,6 +11,8 @@ appointmentRouter.route('/').get(authMiddleware, rescue(appointmentController.ge
 
 appointmentRouter.route('/:id').get(authMiddleware, rescue(appointmentController.getById));
 
+appointmentRouter.route('/user/:authorId').get(authMiddleware, rescue(appointmentController.getByUserId));
+
 appointmentRouter.route('/:id').put(authMiddleware, rescue(appointmentController.update));
 
 appointmentRouter.route('/:id').delete(authMiddleware, rescue(appointmentController.delete));

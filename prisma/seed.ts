@@ -10,6 +10,7 @@ async function main() {
       password: bcrypt.hashSync('password', 8),
       appointments: {
         create: {
+          completed: 'false',
           description: 'Bench 220 pounds',
           creationDate: new Date(),
           updateDate: new Date(),
@@ -32,7 +33,30 @@ async function main() {
       password: bcrypt.hashSync('password', 8),
       appointments: {
         create: {
+          completed: 'true',
           description: 'Go to the dentist',
+          creationDate: new Date(),
+          updateDate: new Date(),
+          dueDate: undefined,
+          category: {
+            create: {
+              name: 'Health'
+            }
+          }
+        }
+      }
+    }
+  });
+  await prisma.user.upsert({
+    where: { email: 'bob@prisma.io' },
+    update: {},
+    create: {
+      email: 'danielemura99@gmail.com',
+      password: bcrypt.hashSync('password', 8),
+      appointments: {
+        create: {
+          completed: 'true',
+          description: 'Go to the gym',
           creationDate: new Date(),
           updateDate: new Date(),
           dueDate: undefined,
