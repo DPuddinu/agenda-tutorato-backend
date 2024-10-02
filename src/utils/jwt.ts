@@ -9,6 +9,6 @@ interface IPayload {
 }
 
 export default {
-  sign: (payload: IPayload) => jwt.sign(payload, SECRET, { expiresIn: '1h', algorithm: 'HS256' }),
+  sign: (payload: IPayload) => jwt.sign(payload, SECRET, { expiresIn: '4h', algorithm: 'HS256' }),
   verify: (token: string) => jwt.verify(token, SECRET)
 };

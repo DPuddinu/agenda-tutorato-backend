@@ -1,5 +1,5 @@
 import express from 'express';
-import errorMiddleware from '#middlewares/error';
+import errorMiddleware from '@/middlewares/error';
 import routes from './routes';
 import cors from 'cors';
 

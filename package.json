@@ -12,9 +12,6 @@
     "prisma:studio": "npx prisma studio",
     "db-seed": "tsx prisma/seed.ts"
   },
-  "imports": {
-    "#*": "./src/*.ts"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",

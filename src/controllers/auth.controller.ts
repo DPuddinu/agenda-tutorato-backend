@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs';
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import jwt from '#utils/jwt';
-import prisma from '#controllers/lib/prisma';
+import jwt from '@/utils/jwt';
+import prisma from '@/controllers/lib/prisma';
 import { z } from 'zod';
 
 export const PasswordSchema = z
