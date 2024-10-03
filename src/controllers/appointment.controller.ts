@@ -154,7 +154,7 @@ class AppointmentController {
         return next({ status: StatusCodes.NOT_FOUND, message: 'Appointment not found' });
       }
 
-      res.status(StatusCodes.NO_CONTENT).send();
+      res.status(StatusCodes.OK).json({ message: 'Appointment deleted' });
     } catch (error) {
       next(error);
     }
