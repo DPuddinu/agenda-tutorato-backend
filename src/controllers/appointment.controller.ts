@@ -2,13 +2,12 @@ import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import prisma from '@/controllers/lib/prisma';
 import { z } from 'zod';
-import jwt from '@/utils/jwt';
 
 const appointmentSchema = z.object({
   completed: z.string().optional(),
   description: z.string().min(1, 'Description is required'),
-  dueDate: z.string().optional().nullable(),
-  categoryId: z.number().int().optional()
+  dueDate: z.string().nullish(),
+  categoryId: z.number().optional()
 });
 
 const paginationSchema = z.object({
